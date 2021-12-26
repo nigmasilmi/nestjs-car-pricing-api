@@ -61,3 +61,16 @@
    <code>
    @Injectable() export class UsersService { constructor(@InjectRepository(User) private \_repo: Repository<User>) {} }}
    </code>
+
+##### Excluding response properties
+
+1. Turn the instance of a class into a plain object in the entity definition
+2. Turn the instance into a plain object based on some rules using a Serializer Interceptor in the controller.
+3. 1 and 2 are the recommended steps by nestjs. But there is a downside (4).
+4. If there is a use case where the full user information is needed (admins), we have to figure out a different solution: create a custom interceptor using a dto that describes how to serialize this entity.
+
+##### Interceptors
+
+1. Act on incoming requests or outgoing responses
+2. It is applied to individual route handlers, a controller class or globally
+3. Create a class and the only requirement is that it implements the intercept method with the parameters context and next. The first is the information on the incoming request and the second is kind of a reference to the request handler of interest.
