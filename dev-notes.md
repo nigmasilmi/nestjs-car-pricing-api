@@ -74,3 +74,4 @@
 1. Act on incoming requests or outgoing responses
 2. It is applied to individual route handlers, a controller class or globally
 3. Create a class and the only requirement is that it implements the intercept method with the parameters context and next. The first is the information on the incoming request and the second is kind of a reference to the request handler of interest.
+4. Add the serialize logic with a DTO (UserDto in this project)
