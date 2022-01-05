@@ -15,10 +15,10 @@
    `imports: [TypeOrmModule.forFeature([User])]`,
 3. Connect the entity to the root connection. By adding the entity to the entities property array
 
-##### To see the contents of the sqlite db
+##### SQLite DB - see the contents
 
 1. Install SQLite extension and install
-2. In the vscode command pallete search for sqlite / open db, the sqlite explorer will appear in the left panel
+2. In the vscode command pallete search for SQLite: Open Database, the sqlite explorer will appear in the left panel
 
 ##### TypeOrm Details
 
@@ -75,3 +75,29 @@
 2. It is applied to individual route handlers, a controller class or globally
 3. Create a class and the only requirement is that it implements the intercept method with the parameters context and next. The first is the information on the incoming request and the second is kind of a reference to the request handler of interest.
 4. Add the serialize logic with a DTO (UserDto in this project)
+
+##### Cookies flavors
+
+- Use library cookie-session that runs the logic:
+  - Looks at the 'Cookie' header
+  - Decodes the string, resulting in an object
+- We get access to session object in a request handler using a decorator
+- Add/Remove/Change the properties on the session object
+- Use library cookie-session that runs the logic:
+
+  - Sees the updated session and turns it into an encrypted string
+  - String sent back in the 'Set-cookie' header on the response object
+
+- The cookie-session library must be wired up globally in the app
+- Cookie session library does not work well with some tsconfig settings, the import that worked for this project is `//eslint-disable-next-line @typescript-eslint/no-var-requires const cookieSession = require('cookie-session');`
+
+- The session is modifyed in the route handler function, and that function receives a parameter decorated with @Session()
+- The Cookie header is added in the response header only when a change in session is detected. That is why, we must access to the user's session property each time a protected route is receiving requests
+
+#### Guards / Interceptors / Decorators
+
+- Because of the need to indentify or authorize a user to access some routes, the process can be authomated using guards, or Interceptors+Decorators
+
+- Guards: Rejects the access to the route if some condition is not met
+
+- To tell which user is accessing, an Interceptor checks the incoming request and a Decorator massages the header / header properties
